@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale"/>
+		<title>Product app</title>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<div class="nav-bar"></div>
+		<div id="app">
+			<div class="product">
+				<div class="product-image"><img v-bind:src="image"></div>
+				<div class="product-info">
+					<h1>{{ title }}</h1> 
+					<div>{{ description }} <span class="on-sale" v-if="onSale">On Sale!</span></div>
+					<a v-bind:href="link">Link to the lesson</a>
+					<p v-if="inStock">In Stock</p>
+					<!--<p v-else-if="inventory <=10 && inventory > 0">Almost sold out!</p>-->
+					<p v-else :class="{ outOfStock: !inStock }">Out of Stock</p>
+					<ul>
+						<li v-for="detail in details">{{ detail }}</li>
+					</ul>
+					<div class="flexbox">
+						<div v-for="(variant, index) in variants" 
+							:key="variant.variantId"
+							class="color-box"
+							:style="{ backgroundColor: variant.variantColor }"
+							@mouseover="updateProduct(index)">
+						</div>
+					</div>
+					<div class="flexbox">
+						<div v-for="size in sizes" :key="size.sizeId">
+							<p>{{ size.sizeValue }}</p>
+						</div>
+					</div>
+					<div class="flexbox">
+						<button v-on:click="addToCart" 
+							:disabled="inventory == 0"
+							:class="{ disabledButton: !inStock }">Add to Cart</button>
+						<button @click="deleteFromCart"
+							:disabled="cart <= 0"
+							:class="{ disabledButton: cart <= 0 }">Delete from Cart</button>
+						<button @click="clearCart"
+							:disabled="cart <= 0"
+							:class="{ disabledButton: cart <= 0 }">Clear Cart</button>
+					</div>
+					<div class="cart">
+						<p>Cart {{ cart }}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+		<script src="main.js"></script>
+	</body>
+</html>
