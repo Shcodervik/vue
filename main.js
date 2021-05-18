@@ -50,9 +50,6 @@ Vue.component('product', {
 							:disabled="cart <= 0"
 							:class="{ disabledButton: cart <= 0 }">Clear Cart</button>
 					</div>
-					<div class="cart">
-						<p>Cart {{ cart }}</p>
-					</div>
 				</div>
 			</div>`,
 	data() {
@@ -69,7 +66,7 @@ Vue.component('product', {
 				variantId: 2234,
 				variantColor: "blue",
 				variantImage: './images/socks-fox.png',
-				variantQuantity: 0
+				variantQuantity: 2
 			},
 			{
 				variantId: 2235,
@@ -91,19 +88,18 @@ Vue.component('product', {
 				sizeId: 13,
 				sizeValue: "L"
 			}
-			],
-			cart: 0
+			]
 		}
 	},
 	methods: {
 		addToCart: function() {
-			this.cart += 1;
+			this.$emit('add-to-cart', this.variants[this.selectedVariant].variantId)
 		},
 		deleteFromCart: function() {
-			this.cart -= 1;
+			this.$emit('delete-from-cart', this.variants[this.selectedVariant].variantId)
 		},
 		clearCart: function() {
-			this.cart = 0;
+			this.$emit('clear-cart')
 		},
 		updateProduct: function(index) {
 			this.selectedVariant = index;
@@ -133,6 +129,18 @@ Vue.component('product', {
 var app = new Vue({
 	el: '#app',
 	data:{
-		premium: true
+		premium: true,
+		cart: []
+	},
+	methods: {
+		updateCart(id) {
+			this.cart.push(id)
+		},
+		deleteFromCart(id) {
+			this.cart.pop(id)
+		},
+		clearCart() {
+			this.cart = []
+		}
 	}
 })
