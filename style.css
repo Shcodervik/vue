@@ -95,3 +95,12 @@ textarea {
 .outOfStock {
   text-decoration: line-through;
 }
+
+.activeTab {
+  color: #16C0B0;
+  text-decoration: underline;
+}
+
+.tabs {
+  margin: 10px;
+}
